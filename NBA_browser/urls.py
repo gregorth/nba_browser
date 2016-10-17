@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from rest_framework import routers
 
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-]
+from endpoints.views import PlayerViewSet
+
+router = routers.SimpleRouter()
+router.register(r'players', PlayerViewSet)
+urlpatterns = router.urls
