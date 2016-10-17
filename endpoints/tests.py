@@ -15,4 +15,4 @@ class EndpointTest(APITestCase):
         resp = self.client.get(reverse('player-list'), {}, format='json')
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-    
+

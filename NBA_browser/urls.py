@@ -13,12 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework import routers
+from rest_framework_nested import routers
 
-from endpoints.views import PlayerViewSet
+from endpoints.views import PlayerAPI, StatisticAPI
 
-router = routers.SimpleRouter()
-router.register(r'players', PlayerViewSet)
-urlpatterns = router.urls
+router = routers.DefaultRouter()
+router.register(r'players', PlayerAPI)
+
+player_router = routers.NestedSimpleRouter(router, r'players', lookup='player')
+player_router.register(r'statistics', StatisticAPI, r'player-statistics')
+
+urlpatterns = [
+    url(r'', include(router.urls)),
+    url(r'', include(player_router.urls))
+]

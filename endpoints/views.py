@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ReadOnlyModelViewSet
-from .models import Player
-from .serializers import PlayerSerializer
+from .models import Player, Statistic
+from .serializers import PlayerSerializer, StatisticSerializer
 
 
-class PlayerViewSet(ReadOnlyModelViewSet):
+class PlayerAPI(ReadOnlyModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.select_related(
         'team'
@@ -19,3 +19,11 @@ class PlayerViewSet(ReadOnlyModelViewSet):
             qs = super().get_queryset()
         return qs
 
+
+class StatisticAPI(ReadOnlyModelViewSet):
+    serializer_class = StatisticSerializer
+
+    def get_queryset(self):
+        player__pk = int(self.kwargs['player_pk'])
+        player = Player.objects.get(pk=player__pk)
+        return player.statistics.select_related('team').all()

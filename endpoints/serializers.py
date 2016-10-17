@@ -53,3 +53,32 @@ class PlayerSerializer(serializers.ModelSerializer):
             'to_year',
             'roster_status',
         )
+
+
+class StatisticSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Statistic
+        fields = (
+            "season_id",
+            "league_id",
+            "team",
+            "age",
+
+            "gp",
+            "gs",
+            "min",
+            "fgm",
+            "fga",
+            "fg_pct",
+            "fg3m",
+            "ft_pct",
+            "oreb",
+            "dreb",
+            "reb",
+            "ast",
+            "stl",
+            "blk",
+            "tov",
+            "pf",
+            "pts",
+        )
